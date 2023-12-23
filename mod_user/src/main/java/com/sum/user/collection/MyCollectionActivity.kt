@@ -92,7 +92,7 @@ class MyCollectionActivity : BaseMvvmActivity<ActivityMyCollectListBinding, MyCo
     }
 
     override fun initData() {
-        getMyCollectList()
+      //  getMyCollectList()
         mViewModel.collectListLiveData.observe(this) {
             if (mPage == 0) {
                 mAdapter.setData(it)

@@ -29,6 +29,10 @@ import com.sum.user.dialog.SelectBirthdayDialog
 import com.sum.user.dialog.ChoosePhotoDialog
 import com.sum.user.dialog.ChooseSexDialog
 import com.sum.common.manager.FileManager
+import com.sum.common.util.Loge
+import com.sum.glide.setUriCircle
+import com.sum.glide.setUrlCircle
+import com.sum.user.dialog.ChoosePhotoDialogHlj
 import com.tbruyelle.rxpermissions3.RxPermissions
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -126,6 +130,17 @@ class UserInfoActivity : BaseDataBindActivity<ActivityUserInfoBinding>() {
         mBinding.tvSave.onClick {
             saveUserInfo()
         }
+
+
+        mBinding.takePictures.onClick {
+            ChoosePhotoDialogHlj.BuilderHlj(this).setTakePicturesCallUri {
+                Loge.e(it.toString())
+                mBinding.imageHlj.setUriCircle(it)
+            }.setPhotoAlbumCallUri {
+                Loge.e(it.toString())
+                mBinding.imageHlj.setUriCircle(it)
+            }.show()
+        }
     }
 
     /**
@@ -144,6 +159,7 @@ class UserInfoActivity : BaseDataBindActivity<ActivityUserInfoBinding>() {
             showLoading()
             lifecycleScope.launch {
                 UserServiceProvider.saveUserInfo(user)
+                Loge.e(user.icon)
                 delay(500)
                 dismissLoading()
                 TipsToast.showTips(R.string.default_save_success)
@@ -173,11 +189,11 @@ class UserInfoActivity : BaseDataBindActivity<ActivityUserInfoBinding>() {
         ).subscribe { granted ->
             if (granted) {
                 ChoosePhotoDialog.Builder(this)
-                        .setPhotoAlbumCall {
-                            openAlbum()
-                        }.setTakePicturesCall {
-                            takePictures()
-                        }.show()
+                    .setPhotoAlbumCall {
+                        openAlbum()
+                    }.setTakePicturesCall {
+                        takePictures()
+                    }.show()
             } else {
                 TipsToast.showTips(com.sum.common.R.string.default_agree_permission)
             }

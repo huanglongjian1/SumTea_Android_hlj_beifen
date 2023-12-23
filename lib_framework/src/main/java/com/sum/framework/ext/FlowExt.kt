@@ -28,9 +28,13 @@ fun countDownCoroutines(
             delay(1000)
         }
     }
-            .flowOn(Dispatchers.Main)
-            .onStart { onStart?.invoke() }
-            .onCompletion { onFinish?.invoke() }//like java finally
-            .onEach { onTick.invoke(it) }
-            .launchIn(scope)
+        .flowOn(Dispatchers.Main)
+        .onStart { onStart?.invoke() }
+        .onCompletion {
+            onFinish?.invoke()
+        }//like java finally
+        .onEach {
+            onTick.invoke(it)
+        }
+        .launchIn(scope)
 }

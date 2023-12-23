@@ -9,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sum.common.constant.KEY_DATA
+import com.sum.common.constant.KEY_INDEX
 import com.sum.common.model.SystemList
 import com.sum.common.model.SystemSecondList
 import com.sum.common.provider.SearchServiceProvider
@@ -31,10 +32,11 @@ class ArticleTabActivity : BaseDataBindActivity<ActivityArticleBinding>() {
     private var systemSecondList: MutableList<SystemSecondList>? = null
 
     companion object {
-        fun startIntent(context: Context, tabListJson: String?) {
+        fun startIntent(context: Context, tabListJson: String?, index: Int = 0) {
             val intent = Intent(context, ArticleTabActivity::class.java)
             tabListJson?.let {
                 intent.putExtra(KEY_DATA, tabListJson)
+                intent.putExtra(KEY_INDEX, index)
             }
             context.startActivity(intent)
         }
@@ -58,10 +60,14 @@ class ArticleTabActivity : BaseDataBindActivity<ActivityArticleBinding>() {
         }
         mFragmentAdapter?.setData(mArrayTabFragments)
         mFragmentAdapter?.notifyDataSetChanged()
+
+        val index = intent.getIntExtra(KEY_INDEX, 0)
+        mBinding.viewPager.currentItem = index
     }
 
     private fun initTab() {
-        mFragmentAdapter = ViewPage2FragmentAdapter(supportFragmentManager, lifecycle, mArrayTabFragments)
+        mFragmentAdapter =
+            ViewPage2FragmentAdapter(supportFragmentManager, lifecycle, mArrayTabFragments)
         mBinding.let {
             it.viewPager.adapter = mFragmentAdapter
             //可左右滑动
@@ -69,11 +75,12 @@ class ArticleTabActivity : BaseDataBindActivity<ActivityArticleBinding>() {
             //禁用预加载
             it.viewPager.offscreenPageLimit = ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
 
-            mTabLayoutMediator = TabLayoutMediator(it.tabHome, it.viewPager) { tab: TabLayout.Tab, position: Int ->
-                if (!systemSecondList.isNullOrEmpty() && position < systemSecondList!!.size) {
-                    tab.text = systemSecondList!![position].name
+            mTabLayoutMediator =
+                TabLayoutMediator(it.tabHome, it.viewPager) { tab: TabLayout.Tab, position: Int ->
+                    if (!systemSecondList.isNullOrEmpty() && position < systemSecondList!!.size) {
+                        tab.text = systemSecondList!![position].name
+                    }
                 }
-            }
             //tabLayout和viewPager2关联起来
             mTabLayoutMediator?.attach()
         }

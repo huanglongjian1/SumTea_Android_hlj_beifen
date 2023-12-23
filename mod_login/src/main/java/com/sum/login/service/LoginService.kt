@@ -2,6 +2,7 @@ package com.sum.login.service
 
 import android.content.Context
 import android.content.Intent
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -13,6 +14,7 @@ import com.sum.common.service.ILoginService
 import com.sum.framework.log.LogUtil
 import com.sum.framework.toast.TipsToast
 import com.sum.login.login.LoginActivity
+import com.sum.login.loginfragment.ui.login.LoginFragment
 import com.sum.login.policy.PrivacyPolicyActivity
 import com.sum.network.manager.ApiManager
 import kotlinx.coroutines.GlobalScope
@@ -59,8 +61,12 @@ class LoginService : ILoginService {
             }
             LogUtil.e("logout${response?.data}", tag = "smy")
             observer.onChanged(response?.isFailed() == true)
-            login(context)
+            // login(context)
         }
+    }
+
+    override fun loginFragment(): Fragment {
+        return LoginFragment()
     }
 
     /**

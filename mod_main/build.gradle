@@ -81,4 +81,5 @@ dependencies {
     compileOnly project(path: ':lib_glide')
     compileOnly project(path: ':lib_room')
 
+    compileOnly "com.guolindev.permissionx:permissionx:1.6.4"
 }

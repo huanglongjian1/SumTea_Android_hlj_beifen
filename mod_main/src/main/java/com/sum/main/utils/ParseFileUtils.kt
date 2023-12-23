@@ -1,6 +1,7 @@
 package com.sum.main.utils
 
 import android.content.res.AssetManager
+import com.sum.common.util.Loge
 import com.sum.framework.ext.toBean
 import com.sum.framework.log.LogUtil
 import com.sum.room.entity.VideoInfo
@@ -8,6 +9,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.StringBuilder
+import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 /**
@@ -18,30 +20,37 @@ import kotlin.coroutines.resumeWithException
  * 方便调用，直接以同步的方法拿到返回值
  */
 object ParseFileUtils {
-    suspend fun parseAssetsFile(assetManager: AssetManager, fileName: String): MutableList<VideoInfo> {
+    suspend fun parseAssetsFile(
+        assetManager: AssetManager,
+        fileName: String
+    ): MutableList<VideoInfo> {
         return suspendCancellableCoroutine { continuation ->
             try {
-                val inputStream = assetManager.open(fileName)
-                //逐行读取，不用逐个字节读取
-                val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-                var line: String?
-                val stringBuilder = StringBuilder()
-                //kotlin中不允许这样写
-//                while ((line = bufferedReader.readLine()) != null) {
+//                val inputStream = assetManager.open(fileName)
+//                //逐行读取，不用逐个字节读取
+//                val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+//                var line: String?
+//                val stringBuilder = StringBuilder()
+//                //kotlin中不允许这样写
+////                while ((line = bufferedReader.readLine()) != null) {
+////
+////                }
 //
-//                }
+//                do {
+//                    line = bufferedReader.readLine()
+//                    if (line != null) stringBuilder.append(line) else break
+//                } while (true)
+//
+//                inputStream.close()
+//                bufferedReader.close()
 
-                do {
-                    line = bufferedReader.readLine()
-                    if (line != null) stringBuilder.append(line) else break
-                } while (true)
+                val jsonText = assetManager.open(fileName).bufferedReader().readText()
+                Loge.e(jsonText)
 
-                inputStream.close()
-                bufferedReader.close()
-
-                val list = stringBuilder.toString().toBean<MutableList<VideoInfo>>()
+                val list = jsonText.toBean<MutableList<VideoInfo>>()
                 LogUtil.e("Coroutine == ${list.size}", tag = "smy")
-                continuation.resumeWith(Result.success(list))
+                //  continuation.resumeWith(Result.success(list))
+                continuation.resume(list)
             } catch (e: Exception) {
                 e.printStackTrace()
                 continuation.resumeWithException(e)

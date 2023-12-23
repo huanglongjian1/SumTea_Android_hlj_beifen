@@ -223,6 +223,7 @@ class TaskDispatcher private constructor() {
         @Volatile
         private var sHasInit = false
 
+        @JvmStatic
         fun init(context: Application?) {
             context?.let {
                 Companion.context = it
@@ -236,6 +237,7 @@ class TaskDispatcher private constructor() {
          *
          * @return
          */
+        @JvmStatic
         fun createInstance(): TaskDispatcher {
             if (!sHasInit) {
                 throw RuntimeException("must call TaskDispatcher.init first")

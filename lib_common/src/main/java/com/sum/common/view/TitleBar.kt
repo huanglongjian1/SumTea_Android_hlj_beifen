@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.sum.common.R
 import com.sum.common.databinding.LayoutTitleBarBinding
+import com.sum.common.util.Loge
 import com.sum.framework.ext.onClick
 import com.sum.framework.manager.ActivityManager
 
@@ -67,85 +68,107 @@ class TitleBar @JvmOverloads constructor(
             when (val attr = array.getIndex(i)) {
                 R.styleable.TitleBar_leftText -> {
                     val resId = array.getString(attr)
+                    Loge.e("左边标题:" + resId)
                     mBinding.tvLeft.text = resId
                 }
+
                 R.styleable.TitleBar_middleText -> {
                     val resId = array.getString(attr)
                     mBinding.tvMiddle.text = resId
                 }
+
                 R.styleable.TitleBar_rightText -> {
                     val resId = array.getString(attr)
                     mBinding.tvRight.text = resId
                 }
+
                 R.styleable.TitleBar_leftIcon -> {
                     val drawable = array.getDrawable(attr)
                     mBinding.ivLeftIcon.setImageDrawable(drawable)
                 }
+
                 R.styleable.TitleBar_rightIcon -> {
                     val drawable = array.getDrawable(attr)
                     mBinding.rightIvIcon.setImageDrawable(drawable)
                 }
+
                 R.styleable.TitleBar_middleTextColor -> {
                     val color = array.getColor(attr, 0)
                     mBinding.tvMiddle.setTextColor(color)
                 }
+
                 R.styleable.TitleBar_leftTextColor -> {
                     val color = array.getColor(attr, 0)
                     mBinding.tvLeft.setTextColor(color)
                 }
+
                 R.styleable.TitleBar_rightTextColor -> {
                     val color = array.getColor(attr, 0)
                     mBinding.tvRight.setTextColor(color)
                 }
+
                 R.styleable.TitleBar_background -> {
                     val color = array.getColor(attr, 0)
                     mBinding.root.setBackgroundColor(color)
                 }
+
                 R.styleable.TitleBar_leftTextSize -> {
                     val size = array.getDimension(attr, 0f)
                     mBinding.tvLeft.setTextSize(TypedValue.COMPLEX_UNIT_PX, size)
                 }
+
                 R.styleable.TitleBar_rightTextSize -> {
                     val size = array.getDimension(attr, 0f)
                     mBinding.tvRight.setTextSize(TypedValue.COMPLEX_UNIT_PX, size)
                 }
+
                 R.styleable.TitleBar_leftTextBold -> {
                     val bold = array.getBoolean(attr, false)
                     val paint = mBinding.tvLeft.paint
                     paint.isFakeBoldText = bold
                 }
+
                 R.styleable.TitleBar_middleTextBold -> {
                     val bold = array.getBoolean(attr, false)
                     val paint = mBinding.tvMiddle.paint
                     paint.isFakeBoldText = bold
                 }
+
                 R.styleable.TitleBar_rightTextBold -> {
                     val bold = array.getBoolean(attr, false)
                     val paint = mBinding.tvRight.paint
                     paint.isFakeBoldText = bold
                 }
+
                 R.styleable.TitleBar_leftVisible -> {
                     val show = array.getBoolean(attr, true)
                     val visible = if (show) VISIBLE else INVISIBLE
+                    Loge.e("左:" + show.toString())
                     mBinding.llBackLayer.visibility = visible
                     mBinding.tvLeft.visibility = visible
                 }
+
                 R.styleable.TitleBar_rightVisible -> {
                     val show = array.getBoolean(attr, true)
                     val visible = if (show) VISIBLE else INVISIBLE
+                    Loge.e("右:" + show.toString())
                     mBinding.llRightLayer.visibility = visible
                     mBinding.tvRight.visibility = visible
                 }
+
                 R.styleable.TitleBar_middleTextVisible -> {
                     val show = array.getBoolean(attr, false)
+                    Loge.e("中:" + show.toString())
                     val visible = if (show) VISIBLE else GONE
                     mBinding.tvMiddle.visibility = visible
                 }
+
                 R.styleable.TitleBar_rightIconVisible -> {
                     val show = array.getBoolean(attr, false)
                     val visible = if (show) VISIBLE else GONE
                     mBinding.rightIvIcon.visibility = visible
                 }
+
                 R.styleable.TitleBar_showDividerLine -> {
                     val show = array.getBoolean(attr, false)
                     val visible = if (show) VISIBLE else GONE

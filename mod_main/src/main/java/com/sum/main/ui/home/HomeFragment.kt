@@ -13,6 +13,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
+import com.sum.common.model.ProjectSubList
 import com.sum.common.model.ProjectTabItem
 import com.sum.common.provider.SearchServiceProvider
 import com.sum.framework.adapter.ViewPage2FragmentAdapter
@@ -49,6 +50,7 @@ class HomeFragment : BaseMvvmFragment<FragmentHomeBinding, HomeViewModel>(), OnR
             SearchServiceProvider.toSearch(requireContext())
         }
         initTab()
+     //   mBinding?.CollapsingToolbarLayout?.title="CollapsingToolbarLayout"
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
@@ -63,12 +65,13 @@ class HomeFragment : BaseMvvmFragment<FragmentHomeBinding, HomeViewModel>(), OnR
             } ?: kotlin.run {
                 mBinding?.bannerHome?.gone()
             }
-            mBinding?.refreshLayout?.finishRefresh()
+
         }
 
         mViewModel.getProjectTab().observe(this) { tabs ->
             mProjectTabs =
-                mProjectTabs.filter { it.name == getStringFromResource(R.string.home_tab_video_title) }.toMutableList()
+                mProjectTabs.filter { it.name == getStringFromResource(R.string.home_tab_video_title) }
+                    .toMutableList()
             tabs?.forEachIndexed { index, item ->
                 mProjectTabs.add(item)
                 mArrayTabFragments.append(index + 1, HomeTabFragment.newInstance(tabs[index].id))
@@ -81,13 +84,18 @@ class HomeFragment : BaseMvvmFragment<FragmentHomeBinding, HomeViewModel>(), OnR
                 it.post { it.getTabAt(0)?.select() }
             }
         }
+        mBinding?.refreshLayout?.finishRefresh()
     }
 
     private fun initTab() {
         mArrayTabFragments.append(0, HomeVideoFragment())
-        mProjectTabs.add(0, ProjectTabItem(id = 0, getStringFromResource(R.string.home_tab_video_title)))
+        mProjectTabs.add(
+            0,
+            ProjectTabItem(id = 0, getStringFromResource(R.string.home_tab_video_title))
+        )
         activity?.let {
-            mFragmentAdapter = ViewPage2FragmentAdapter(childFragmentManager, lifecycle, mArrayTabFragments)
+            mFragmentAdapter =
+                ViewPage2FragmentAdapter(childFragmentManager, lifecycle, mArrayTabFragments)
 //            mFragmentAdapter = ViewPage2FragmentAdapter(it, mArrayTabFragments)
         }
         mBinding?.let {
@@ -98,9 +106,10 @@ class HomeFragment : BaseMvvmFragment<FragmentHomeBinding, HomeViewModel>(), OnR
             //需要注意是FragmentStateAdapter不会一直保持Fragment实例，在被destroy后，需要做好Fragment重建后回复数据的准备，这点可以结合ViewModel来进行配合使用。
             it.viewPager.offscreenPageLimit = mArrayTabFragments.size()
 
-            mTabLayoutMediator = TabLayoutMediator(it.tabHome, it.viewPager) { tab: TabLayout.Tab, position: Int ->
-                tab.text = mProjectTabs[position].name
-            }
+            mTabLayoutMediator =
+                TabLayoutMediator(it.tabHome, it.viewPager) { tab: TabLayout.Tab, position: Int ->
+                    tab.text = mProjectTabs[position].name
+                }
             //tabLayout和viewPager2关联起来
             mTabLayoutMediator?.attach()
 
@@ -110,6 +119,7 @@ class HomeFragment : BaseMvvmFragment<FragmentHomeBinding, HomeViewModel>(), OnR
             val tabFirst = it.tabHome.getTabAt(0)
             setTabTextSize(tabFirst)
         }
+
     }
 
     /**

@@ -28,7 +28,7 @@ open class BaseViewModel : ViewModel() {
     fun launchUI(errorBlock: (Int?, String?) -> Unit, responseBlock: suspend () -> Unit) {
         viewModelScope.launch(Dispatchers.Main) {
             safeApiCall(errorBlock = errorBlock, responseBlock)
-        }
+        }//可以直接运行在主线程，错误有回调
     }
 
     /**

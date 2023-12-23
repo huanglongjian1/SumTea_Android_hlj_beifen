@@ -1,6 +1,7 @@
 package com.sum.common.provider
 
 import android.content.Context
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Autowired
@@ -60,5 +61,9 @@ object LoginServiceProvider {
         observer: Observer<Boolean>
     ) {
         loginService.logout(context, lifecycleOwner, observer)
+    }
+
+    fun loginFragment(): Fragment {
+        return loginService.loginFragment()
     }
 }

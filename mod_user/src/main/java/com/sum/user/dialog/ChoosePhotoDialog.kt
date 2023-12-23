@@ -15,11 +15,12 @@ import com.sum.user.databinding.DialogPhotoChooseBinding
  * @desc   拍照、相册选择弹框
  */
 class ChoosePhotoDialog {
-    class Builder(activity: FragmentActivity) : BaseDialogFragment.Builder<Builder>(activity) {
+    open class Builder(activity: FragmentActivity) : BaseDialogFragment.Builder<Builder>(activity) {
         private var mOnTakePicturesCall: (() -> Unit)? = null
         private var mOnPhotoAlbumCall: (() -> Unit)? = null
 
-        private val mBinding: DialogPhotoChooseBinding = DialogPhotoChooseBinding.inflate(LayoutInflater.from(activity))
+        protected val mBinding: DialogPhotoChooseBinding =
+            DialogPhotoChooseBinding.inflate(LayoutInflater.from(activity))
 
         init {
 
@@ -28,7 +29,8 @@ class ChoosePhotoDialog {
 
         private fun initView() {
             setContentView(mBinding.root)
-            setWidth(ViewGroup.LayoutParams.MATCH_PARENT)
+            //    setWidth(ViewGroup.LayoutParams.MATCH_PARENT)
+            setWidth(800)
             setHeight(ViewGroup.LayoutParams.WRAP_CONTENT)
             setAnimStyle(BaseDialog.AnimStyle.BOTTOM)
             gravity = Gravity.BOTTOM

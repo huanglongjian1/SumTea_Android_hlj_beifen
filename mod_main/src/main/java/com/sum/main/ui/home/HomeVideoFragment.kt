@@ -28,9 +28,12 @@ import java.util.ArrayList
  */
 class HomeVideoFragment : BaseMvvmFragment<FragmentHomeVideoBinding, HomeViewModel>() {
     lateinit var videoAdapter: HomeVideoItemAdapter
+
+    private val spanCount = 2
+
     override fun initView(view: View, savedInstanceState: Bundle?) {
 
-        val spanCount = 2
+
         val manager = StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
         videoAdapter = HomeVideoItemAdapter(requireContext())
         mBinding?.recyclerView?.apply {
@@ -46,8 +49,11 @@ class HomeVideoFragment : BaseMvvmFragment<FragmentHomeVideoBinding, HomeViewMod
             ).subscribe { granted ->
                 if (granted) {
                     ARouter.getInstance().build(VIDEO_ACTIVITY_PLAYER)
-                            .withParcelableArrayList(KEY_VIDEO_PLAY_LIST, videoAdapter.getData() as ArrayList<VideoInfo>)
-                            .navigation()
+                        .withParcelableArrayList(
+                            KEY_VIDEO_PLAY_LIST,
+                            videoAdapter.getData() as ArrayList<VideoInfo>
+                        )
+                        .navigation()
                 } else {
                     TipsToast.showTips(com.sum.common.R.string.default_agree_permission)
                 }

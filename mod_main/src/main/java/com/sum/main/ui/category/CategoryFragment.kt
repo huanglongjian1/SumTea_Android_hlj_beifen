@@ -4,15 +4,16 @@ import android.os.Bundle
 import android.util.SparseArray
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.sum.common.util.Loge
 import com.sum.framework.adapter.ViewPage2FragmentAdapter
 import com.sum.framework.base.BaseMvvmFragment
 import com.sum.framework.ext.gone
+import com.sum.framework.ext.isVisible
 import com.sum.framework.ext.toJson
 import com.sum.framework.ext.visible
-import com.sum.main.R
+import com.sum.framework.utils.NetworkUtil
 import com.sum.main.databinding.FragmentCategoryBinding
 import com.sum.main.ui.category.adapter.CategoryTabAdapter
 import com.sum.main.ui.category.viewmodel.CategoryViewModel
@@ -32,17 +33,30 @@ class CategoryFragment : BaseMvvmFragment<FragmentCategoryBinding, CategoryViewM
     override fun initView(view: View, savedInstanceState: Bundle?) {
         initTabRecyclerView()
         initViewPager2()
+
     }
 
     private fun initTabRecyclerView() {
+//        mTabAdapter = CategoryTabAdapter()
+//        mBinding?.tabRecyclerView?.apply {
+//            layoutManager = LinearLayoutManager(requireContext())
+//            adapter = mTabAdapter
+//        }
+//        mTabAdapter.onItemClickListener = { view: View, position: Int ->
+//            updateTabItem(position)
+//            mBinding?.viewPager2?.setCurrentItem(position, false)
+//        }
+//
         mTabAdapter = CategoryTabAdapter()
-        mBinding?.tabRecyclerView?.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = mTabAdapter
-        }
         mTabAdapter.onItemClickListener = { view: View, position: Int ->
             updateTabItem(position)
             mBinding?.viewPager2?.setCurrentItem(position, false)
+        }
+        mBinding?.apply {
+            with(tabRecyclerView) {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = mTabAdapter
+            }
         }
     }
 
@@ -60,22 +74,36 @@ class CategoryFragment : BaseMvvmFragment<FragmentCategoryBinding, CategoryViewM
     }
 
     override fun initData() {
+        val isConnect = NetworkUtil.isConnected(requireActivity())
+        Loge.e("网络连接情况:" + isConnect.toString())
+
         showLoading()
         mViewModel.getCategoryData()
         mViewModel.categoryItemLiveData.observe(this) {
             dismissLoading()
             it?.let {
+                Loge.e(it.toString())
+
                 mBinding?.viewEmptyData?.gone()
                 //默认第一条选中
                 it.firstOrNull()?.isSelected = true
                 mTabAdapter.setData(it)
                 it.forEachIndexed { index, item ->
-                    val fragment = CategorySecondFragment.newInstance(item.articles?.toJson(true) ?: "")
+                    val fragment =
+                        CategorySecondFragment.newInstance(item.articles?.toJson(true) ?: "")
                     fragments.append(index, fragment)
                 }
                 mViewPagerAdapter?.notifyItemRangeChanged(0, it.size)
             } ?: kotlin.run {
                 mBinding?.viewEmptyData?.visible()
+                mBinding?.viewEmptyData?.apply {
+                    if (isVisible) {
+                        setRetryOnClick {
+                            Loge.e("重试")
+                            mViewModel.getCategoryData()
+                        }
+                    }
+                }
             }
         }
     }
@@ -113,6 +141,7 @@ class CategoryFragment : BaseMvvmFragment<FragmentCategoryBinding, CategoryViewM
     override fun onDestroyView() {
         mBinding?.viewPager2?.unregisterOnPageChangeCallback(viewPager2Callback)
         super.onDestroyView()
+
     }
 
 }

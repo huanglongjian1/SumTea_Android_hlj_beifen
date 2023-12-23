@@ -12,7 +12,9 @@ import com.sum.common.model.ProjectSubInfo
 import com.sum.framework.toast.TipsToast
 import com.sum.main.repository.HomeRepository
 import com.sum.common.model.ProjectTabItem
+import com.sum.common.util.Loge
 import com.sum.main.utils.ParseFileUtils
+import com.sum.network.error.ExceptionHandler
 import com.sum.network.flow.requestFlow
 import com.sum.network.manager.ApiManager
 import com.sum.network.viewmodel.BaseViewModel
@@ -114,8 +116,13 @@ class HomeViewModel : BaseViewModel() {
                 var list = homeRepository.getVideoListCache()
                 //缓存为空则创建视频数据
                 if (list.isNullOrEmpty()) {
-                    list = ParseFileUtils.parseAssetsFile(assetManager, FILE_VIDEO_LIST)
-                    VideoCacheManager.saveVideoList(list)
+                    try {
+                        list = ParseFileUtils.parseAssetsFile(assetManager, FILE_VIDEO_LIST)
+                        VideoCacheManager.saveVideoList(list)
+                    } catch (e: Exception) {
+                       val apiException=ExceptionHandler.handleException(e)
+                        Loge.e(apiException.errCode.toString()+":"+apiException.errMsg)
+                    }
                 }
                 list
             }

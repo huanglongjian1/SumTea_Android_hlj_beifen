@@ -24,10 +24,16 @@ class SystemFragment : BaseMvvmFragment<FragmentSystemBinding, SystemViewModel>(
     override fun initView(view: View, savedInstanceState: Bundle?) {
         mAdapter = SystemAdapter()
         mBinding?.recyclerView?.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = mAdapter
             addItemDecoration(NormalItemDecoration().apply {
-                setBounds(left = dpToPx(8), top = dpToPx(10), right = dpToPx(8), bottom = dpToPx(10))
+                setBounds(
+                    left = dpToPx(8),
+                    top = dpToPx(10),
+                    right = dpToPx(8),
+                    bottom = dpToPx(10)
+                )
                 setLastBottom(true)
             })
         }

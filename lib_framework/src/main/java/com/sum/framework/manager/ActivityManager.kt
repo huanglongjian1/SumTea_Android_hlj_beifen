@@ -49,6 +49,13 @@ object ActivityManager {
         }
     }
 
+    /**
+     * 统计存活的activity
+     */
+    fun countActivitys(): Int {
+        return tasks.size
+    }
+
 
     /**
      * 关闭activity

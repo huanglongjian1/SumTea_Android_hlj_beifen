@@ -2,8 +2,9 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
 }
-
+apply from: '../maven-push.gradle'
 android {
+
     compileSdk rootProject.android.compileSdk
 
     defaultConfig {
@@ -30,10 +31,18 @@ android {
 }
 
 dependencies {
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly rootProject.depsLibs.coreKtx
-    compileOnly rootProject.depsLibs.appcompat
-    compileOnly rootProject.depsLibs.material
+//    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+//    compileOnly rootProject.depsLibs.coreKtx
+//    compileOnly rootProject.depsLibs.appcompat
+//    compileOnly rootProject.depsLibs.material
+//
+//    compileOnly project(path: ':lib_framework')
 
-    compileOnly project(path: ':lib_framework')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation rootProject.depsLibs.coreKtx
+    implementation rootProject.depsLibs.appcompat
+    implementation rootProject.depsLibs.material
+
+    implementation project(path: ':lib_framework')
+
 }

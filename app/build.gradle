@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+
     signingConfigs {
         debug {
             storeFile file('../SumTea.jks')
@@ -142,4 +143,6 @@ dependencies {
     implementation project(path: ':lib_banner')
     implementation project(path: ':lib_glide')
     implementation project(path: ':lib_room')
+
+    implementation "com.guolindev.permissionx:permissionx:1.6.4"
 }

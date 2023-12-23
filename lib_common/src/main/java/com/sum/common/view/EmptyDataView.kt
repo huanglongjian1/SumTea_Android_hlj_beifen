@@ -23,20 +23,28 @@ class EmptyDataView @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     private var mBinding: ViewEmptyDataBinding
+    private var onClick: (() -> Unit)? = null
 
     init {
         orientation = VERTICAL
         gravity = Gravity.CENTER
-        layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
         mBinding = ViewEmptyDataBinding.inflate(LayoutInflater.from(context), this, true)
         obtainAttributes(context, attrs)
+        mBinding.tvRetry.setOnClickListener {
+             onClick?.invoke()
+        }
     }
 
     private fun obtainAttributes(context: Context, attrs: AttributeSet?) {
         attrs?.let {
             val ta = context.obtainStyledAttributes(attrs, R.styleable.EmptyDataView)
             val emptyText = ta.getString(R.styleable.EmptyDataView_emptyText)
-            val emptyImage = ta.getResourceId(R.styleable.EmptyDataView_emptyImage, R.mipmap.ic_data_empty)
+            val emptyImage =
+                ta.getResourceId(R.styleable.EmptyDataView_emptyImage, R.mipmap.ic_data_empty)
             val bgColor = ta.getColor(
                 R.styleable.EmptyDataView_bg_color,
                 ContextCompat.getColor(context, R.color.white)
@@ -66,6 +74,10 @@ class EmptyDataView @JvmOverloads constructor(
     fun setBgColor(colorId: Int): EmptyDataView {
         setBackgroundColor(colorId)
         return this
+    }
+
+    fun setRetryOnClick(onClick: () -> Unit) {
+        this.onClick = onClick
     }
 
     /**

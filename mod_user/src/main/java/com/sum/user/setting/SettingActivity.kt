@@ -39,7 +39,7 @@ class SettingActivity : BaseDataBindActivity<ActivitySettingBinding>() {
     var allCacheDir = arrayOfNulls<String>(2)
 
     override fun initView(savedInstanceState: Bundle?) {
-        ViewUtils.setClipViewCornerRadius(mBinding.tvLogout, dpToPx(8))
+        ViewUtils.setClipViewCornerRadius(mBinding.tvLogout, dpToPx(80))
         mBinding.tvCurrentVersion.text = String.format(
             getString(
                 R.string.setting_current_version
@@ -95,6 +95,8 @@ class SettingActivity : BaseDataBindActivity<ActivitySettingBinding>() {
                     SearchServiceProvider.clearSearchHistoryCache()
                     dismissLoading()
                 }
+                finish()
+                LoginServiceProvider.login(this)
             }).show()
         }
     }

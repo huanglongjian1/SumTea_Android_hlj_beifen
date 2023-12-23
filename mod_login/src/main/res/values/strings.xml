@@ -23,5 +23,14 @@
     <string name="register_hint_password">请输入确认密码</string>
 
     <string name="user_privacy_policy">本项目的API大部分来自鸿洋提供的 WanAndroid API，仅供开源学习使用，禁止用于商业用途。\n\n项目中有部分代码和资源参考其他开源项目或者其他项目，视频资源来自抖音短视频和Android官网，如有侵权请联系作者删除。\n\n如有任何问题请联系作者本人，或者在github的 Issue 中提交对本项目的改进建议~</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 
 </resources>

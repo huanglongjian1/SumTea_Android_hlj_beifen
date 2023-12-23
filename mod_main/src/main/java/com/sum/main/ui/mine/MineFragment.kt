@@ -3,6 +3,7 @@ package com.sum.main.ui.mine
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.scwang.smart.refresh.layout.api.RefreshLayout
@@ -12,6 +13,7 @@ import com.sum.common.constant.DEMO_ACTIVITY_LIFECYCLE
 import com.sum.common.constant.DEMO_ACTIVITY_LIVEDATA
 import com.sum.common.constant.DEMO_ACTIVITY_NAVIGATION
 import com.sum.common.constant.DEMO_ACTIVITY_VIEWMODEL
+import com.sum.common.constant.LOGIN_ACTIVITY_LOGIN
 import com.sum.common.constant.USER_ACTIVITY_COLLECTION
 import com.sum.common.constant.USER_ACTIVITY_INFO
 import com.sum.common.constant.USER_ACTIVITY_SETTING
@@ -19,6 +21,7 @@ import com.sum.common.model.User
 import com.sum.common.provider.LoginServiceProvider
 import com.sum.common.provider.MainServiceProvider
 import com.sum.common.provider.UserServiceProvider
+import com.sum.common.util.Loge
 import com.sum.framework.base.BaseMvvmFragment
 import com.sum.framework.decoration.NormalItemDecoration
 import com.sum.framework.ext.gone
@@ -61,6 +64,18 @@ class MineFragment : BaseMvvmFragment<FragmentMineBinding, MineViewModel>(), OnR
         UserServiceProvider.getUserLiveData().observe(this) {
             setUserInfo(it)
         }
+        isShowLoginFragment.observe(this) {
+            if (it) {
+                if (!loginFragment.isAdded) {
+                    childFragmentManager.beginTransaction()
+                        .add(R.id.login_fragment, loginFragment).commit()
+                }
+            } else {
+                if (loginFragment.isAdded) {
+                    childFragmentManager.beginTransaction().remove(loginFragment).commit()
+                }
+            }
+        }
     }
 
     override fun onFragmentVisible(isVisibleToUser: Boolean) {
@@ -86,9 +101,15 @@ class MineFragment : BaseMvvmFragment<FragmentMineBinding, MineViewModel>(), OnR
             }
         } else {
             mHeadBinding.tvName.text = getStringFromResource(R.string.mine_not_login)
-            mHeadBinding.tvDesc.text = getStringFromResource(com.sum.common.R.string.login_know_more_android)
+            mHeadBinding.tvDesc.text =
+                getStringFromResource(com.sum.common.R.string.login_know_more_android)
         }
     }
+
+    val loginFragment by lazy {
+        LoginServiceProvider.loginFragment()
+    }
+    var isShowLoginFragment = MutableLiveData(false)
 
     private fun initListener() {
         mHeadBinding?.apply {
@@ -103,6 +124,9 @@ class MineFragment : BaseMvvmFragment<FragmentMineBinding, MineViewModel>(), OnR
                 ARouter.getInstance().build(USER_ACTIVITY_SETTING).navigation()
             }
             tvVideo.onClick {
+                //   ARouter.getInstance().build(LOGIN_ACTIVITY_LOGIN).navigation()
+                Loge.e("login")
+                isShowLoginFragment.value = true
 
             }
             tvWorkTitle.onClick {
@@ -145,7 +169,7 @@ class MineFragment : BaseMvvmFragment<FragmentMineBinding, MineViewModel>(), OnR
 
     private fun initRecyclerView() {
         mBinding?.refreshLayout?.apply {
-            autoRefresh()
+          //  autoRefresh()
             setEnableRefresh(true)
             setEnableLoadMore(true)
             setOnRefreshListener(this@MineFragment)

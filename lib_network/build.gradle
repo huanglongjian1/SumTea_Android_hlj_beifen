@@ -2,8 +2,9 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
 }
-
+apply from: '../maven-push.gradle'
 android {
+
     compileSdk rootProject.android.compileSdk
 
     defaultConfig {

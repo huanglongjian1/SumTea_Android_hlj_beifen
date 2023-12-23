@@ -26,13 +26,15 @@ import com.sum.search.SearchResultAdapter
 import com.sum.search.viewmodel.SearchViewModel
 import com.sum.search.databinding.ActivitySearchBinding
 import com.sum.search.manager.SearchManager
+
 /**
  * @author mingyan.su
  * @date   2023/3/29 18:14
  * @desc   搜索Activity
  */
 @Route(path = SEARCH_ACTIVITY_SEARCH)
-class SearchActivity : BaseMvvmActivity<ActivitySearchBinding, SearchViewModel>(), OnLoadMoreListener {
+class SearchActivity : BaseMvvmActivity<ActivitySearchBinding, SearchViewModel>(),
+    OnLoadMoreListener {
     private var page = 0
     private lateinit var mAdapter: SearchResultAdapter
 
@@ -94,18 +96,19 @@ class SearchActivity : BaseMvvmActivity<ActivitySearchBinding, SearchViewModel>(
      * 清楚搜索历史
      */
     private fun clearHistoryCache() {
-        MessageDialog.Builder(this).setTitle(getStringFromResource(com.sum.common.R.string.dialog_tips_title))
-                .setMessage(getStringFromResource(R.string.search_clear_history))
-                .setConfirm(getStringFromResource(com.sum.common.R.string.default_confirm))
-                .setConfirmTxtColor(getColorFromResource(com.sum.common.R.color.color_0165b8))
-                .setCancel(getString(com.sum.common.R.string.default_cancel))
-                .setonCancelListener {
-                    it?.dismiss()
-                }
-                .setonConfirmListener {
-                    SearchManager.clearSearchHistory()
-                    it?.dismiss()
-                }.create().show()
+        MessageDialog.Builder(this)
+            .setTitle(getStringFromResource(com.sum.common.R.string.dialog_tips_title))
+            .setMessage(getStringFromResource(R.string.search_clear_history))
+            .setConfirm(getStringFromResource(com.sum.common.R.string.default_confirm))
+            .setConfirmTxtColor(getColorFromResource(com.sum.common.R.color.color_0165b8))
+            .setCancel(getString(com.sum.common.R.string.default_cancel))
+            .setonCancelListener {
+                it?.dismiss()
+            }
+            .setonConfirmListener {
+                SearchManager.clearSearchHistory()
+                it?.dismiss()
+            }.create().show()
     }
 
     private fun initRecyclerView() {
@@ -154,6 +157,9 @@ class SearchActivity : BaseMvvmActivity<ActivitySearchBinding, SearchViewModel>(
                 if (it.isNullOrEmpty()) {
                     //空视图
                     mBinding.viewEmptyData.visible()
+                    mBinding.viewEmptyData.setRetryOnClick {
+                        getSearchResult()
+                    }
                 } else {
                     mBinding.viewEmptyData.gone()
                 }
@@ -203,7 +209,8 @@ class SearchActivity : BaseMvvmActivity<ActivitySearchBinding, SearchViewModel>(
             mViewModel.collectArticle(item.id, collect).observe(this) {
                 dismissLoading()
                 it?.let {
-                    val tipsRes = if (collect) com.sum.common.R.string.collect_cancel else com.sum.common.R.string.collect_success
+                    val tipsRes =
+                        if (collect) com.sum.common.R.string.collect_cancel else com.sum.common.R.string.collect_success
                     TipsToast.showSuccessTips(tipsRes)
                     item.collect = !collect
                     mAdapter.updateItem(position, item)

@@ -2,6 +2,7 @@ package com.sum.main.ui.category.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.sum.common.model.CategoryItem
+import com.sum.common.util.Loge
 import com.sum.framework.toast.TipsToast
 import com.sum.network.callback.IApiErrorCallback
 import com.sum.network.manager.ApiManager
@@ -27,6 +28,11 @@ class CategoryViewModel : BaseViewModel() {
                 super.onError(code, error)
                 TipsToast.showTips(error)
                 categoryItemLiveData.value = null
+                Loge.e("断点1:" + code + ":" + error)
+            }
+
+            override fun onLoginFail(code: Int?, error: String?) {
+                super.onLoginFail(code, error)
             }
         }) {
             categoryItemLiveData.value = it

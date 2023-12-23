@@ -4,8 +4,9 @@ plugins {
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
 }
-
+apply from: '../maven-push.gradle'
 android {
+
     compileSdk rootProject.android.compileSdk
 
     defaultConfig {
@@ -43,19 +44,35 @@ android {
 }
 
 dependencies {
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
-    compileOnly rootProject.depsLibs.coreKtx
-    compileOnly rootProject.depsLibs.appcompat
-    compileOnly rootProject.depsLibs.material
-    compileOnly rootProject.depsLibs.constraintlayout
+//    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+//    compileOnly rootProject.depsLibs.coreKtx
+//    compileOnly rootProject.depsLibs.appcompat
+//    compileOnly rootProject.depsLibs.material
+//    compileOnly rootProject.depsLibs.constraintlayout
+//
+//    compileOnly rootProject.depsLibs.refreshLayout
+//    compileOnly rootProject.depsLibs.refreshHeader
+//    compileOnly rootProject.depsLibs.refreshFooter
+//
+//    compileOnly rootProject.depsLibs.aroutreApi
+//    kapt rootProject.depsLibs.arouterCompiler
+//
+//    compileOnly project(path: ':lib_framework')
+//    compileOnly project(path: ':lib_banner')
 
-    compileOnly rootProject.depsLibs.refreshLayout
-    compileOnly rootProject.depsLibs.refreshHeader
-    compileOnly rootProject.depsLibs.refreshFooter
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation rootProject.depsLibs.coreKtx
+    implementation rootProject.depsLibs.appcompat
+    implementation rootProject.depsLibs.material
+    implementation rootProject.depsLibs.constraintlayout
 
-    compileOnly rootProject.depsLibs.aroutreApi
+    implementation rootProject.depsLibs.refreshLayout
+    implementation rootProject.depsLibs.refreshHeader
+    implementation rootProject.depsLibs.refreshFooter
+
+    implementation rootProject.depsLibs.aroutreApi
     kapt rootProject.depsLibs.arouterCompiler
 
-    compileOnly project(path: ':lib_framework')
-    compileOnly project(path: ':lib_banner')
+    implementation project(path: ':lib_framework')
+    implementation project(path: ':lib_banner')
 }

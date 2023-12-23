@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.sum.common.constant.LOGIN_ACTIVITY_LOGIN
 import com.sum.common.provider.UserServiceProvider
+import com.sum.common.util.Loge
 import com.sum.framework.base.BaseMvvmActivity
 import com.sum.framework.ext.onClick
 import com.sum.framework.ext.textChangeFlow
@@ -47,6 +48,7 @@ class LoginActivity : BaseMvvmActivity<ActivityLoginBinding, LoginViewModel>() {
         initAgreement()
         initListener()
         mBinding.etPhone.setText(UserServiceProvider.getUserPhone())
+        Loge.e(UserServiceProvider.getUserPhone())
         mBinding.etPhone.setSelection(mBinding.etPhone.length())
         mBinding.etPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
     }
@@ -56,6 +58,7 @@ class LoginActivity : BaseMvvmActivity<ActivityLoginBinding, LoginViewModel>() {
             //登录成功
             dismissLoading()
             user?.let {
+                Loge.e(user.toString())
                 UserServiceProvider.saveUserInfo(user)
                 UserServiceProvider.saveUserPhone(user.username)
                 TipsToast.showTips(R.string.success_login)
@@ -83,8 +86,12 @@ class LoginActivity : BaseMvvmActivity<ActivityLoginBinding, LoginViewModel>() {
 
         setEditTextChange(mBinding.etPhone)
         setEditTextChange(mBinding.etPassword)
+
         mBinding.cbAgreement.setOnCheckedChangeListener { _, _ ->
             updateLoginState()
+        }
+        mBinding.ivLoginWx.setOnClickListener {
+            mBinding.titleBar.setMiddleText("改新标题")
         }
     }
 
@@ -107,13 +114,13 @@ class LoginActivity : BaseMvvmActivity<ActivityLoginBinding, LoginViewModel>() {
     private fun setEditTextChange(editText: EditText) {
         editText.textChangeFlow()
 //                .filter { it.isNotEmpty() }
-                .debounce(300)
-                //.flatMapLatest { searchFlow(it.toString()) }
-                .flowOn(Dispatchers.IO)
-                .onEach {
-                    updateLoginState()
-                }
-                .launchIn(lifecycleScope)
+            .debounce(300)
+            //.flatMapLatest { searchFlow(it.toString()) }
+            .flowOn(Dispatchers.IO)
+            .onEach {
+                updateLoginState()
+            }
+            .launchIn(lifecycleScope)
     }
 
     /**
@@ -151,7 +158,8 @@ class LoginActivity : BaseMvvmActivity<ActivityLoginBinding, LoginViewModel>() {
             mBinding.etPassword.transformationMethod = PasswordTransformationMethod.getInstance()
             mBinding.ivPasswordToggle.setImageResource(R.mipmap.ic_psw_visible)
         }
-        mBinding.etPassword.setSelection(mBinding.etPassword.length())
+        //   mBinding.etPassword.setSelection(mBinding.etPassword.length())
+        mBinding.etPassword.setSelection(0, mBinding.etPassword.length())
     }
 
     /**
@@ -167,7 +175,8 @@ class LoginActivity : BaseMvvmActivity<ActivityLoginBinding, LoginViewModel>() {
             spaBuilder.setSpan(
                 object : ClickableSpan() {
                     override fun onClick(widget: View) {
-                        (widget as TextView).highlightColor = getColorFromResource(com.sum.common.R.color.transparent)
+                        (widget as TextView).highlightColor =
+                            getColorFromResource(com.sum.common.R.color.transparent)
                         PrivacyPolicyActivity.start(this@LoginActivity)
                     }
 
@@ -186,7 +195,8 @@ class LoginActivity : BaseMvvmActivity<ActivityLoginBinding, LoginViewModel>() {
             spaBuilder.setSpan(
                 object : ClickableSpan() {
                     override fun onClick(widget: View) {
-                        (widget as TextView).highlightColor = getColorFromResource(com.sum.common.R.color.transparent)
+                        (widget as TextView).highlightColor =
+                            getColorFromResource(com.sum.common.R.color.transparent)
                         PrivacyPolicyActivity.start(this@LoginActivity)
                     }
 

@@ -1,5 +1,6 @@
 package com.sum.network.flow
 
+import com.sum.common.util.Loge
 import com.sum.framework.log.LogUtil
 import com.sum.network.error.ApiException
 import com.sum.network.error.ExceptionHandler
@@ -61,26 +62,28 @@ suspend fun <T> requestFlowResponse(
         }
 
         if (response?.isFailed() == true) {
+            Loge.e(response.errorCode.toString() + ":" + response.errorMsg)
             throw ApiException(response.errorCode, response.errorMsg)
         }
         //2.发送网络请求结果回调
         emit(response)
         //3.指定运行的线程，flow {}执行的线程
     }.flowOn(Dispatchers.IO)
-            .onStart {
-                //4.请求开始，展示加载框
-                showLoading?.invoke(true)
-            }
-            //5.捕获异常
-            .catch { e ->
-                e.printStackTrace()
-                LogUtil.e(e)
-                val exception = ExceptionHandler.handleException(e)
-                errorBlock?.invoke(exception.errCode, exception.errMsg)
-            }
-            //6.请求完成，包括成功和失败
-            .onCompletion {
-                showLoading?.invoke(false)
-            }
+        .onStart {
+            //4.请求开始，展示加载框
+            showLoading?.invoke(true)
+        }
+        //5.捕获异常
+        .catch { e ->
+            e.printStackTrace()
+            LogUtil.e(e)
+            val exception = ExceptionHandler.handleException(e)
+            errorBlock?.invoke(exception.errCode, exception.errMsg)
+            Loge.e(exception.errCode.toString() + "==" + exception.errMsg)
+        }
+        //6.请求完成，包括成功和失败
+        .onCompletion {
+            showLoading?.invoke(false)
+        }
     return flow
 }

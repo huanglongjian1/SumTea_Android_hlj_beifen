@@ -167,10 +167,12 @@ open class BannerViewPager<T, H : BaseViewHolder<T>> @JvmOverloads constructor(
                 isLooping = true
                 stopLoop()
             }
+
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_OUTSIDE -> {
                 isLooping = false
                 startLoop()
             }
+
             else -> {
             }
         }
@@ -190,9 +192,10 @@ open class BannerViewPager<T, H : BaseViewHolder<T>> @JvmOverloads constructor(
                 startY = ev.y.toInt()
                 parent.requestDisallowInterceptTouchEvent(
                     !mBannerManager
-                            .getBannerOptions().isDisallowParentInterceptDownEvent()
+                        .getBannerOptions().isDisallowParentInterceptDownEvent()
                 )
             }
+
             MotionEvent.ACTION_MOVE -> {
                 val endX = ev.x.toInt()
                 val endY = ev.y.toInt()
@@ -206,11 +209,14 @@ open class BannerViewPager<T, H : BaseViewHolder<T>> @JvmOverloads constructor(
                     onHorizontalActionMove(endX, disX, disY)
                 }
             }
+
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> parent.requestDisallowInterceptTouchEvent(
                 false
             )
+
             MotionEvent.ACTION_OUTSIDE -> {
             }
+
             else -> {
             }
         }
@@ -290,7 +296,9 @@ open class BannerViewPager<T, H : BaseViewHolder<T>> @JvmOverloads constructor(
     }
 
     private fun handlePosition() {
-        if ((mBannerPagerAdapter != null) && ((mBannerPagerAdapter?.getListSize() ?: 0) > 1) && isAutoPlay()) {
+        if ((mBannerPagerAdapter != null) && ((mBannerPagerAdapter?.getListSize()
+                ?: 0) > 1) && isAutoPlay()
+        ) {
             var currentItem = (mViewPager?.currentItem ?: 0) + 1
             if (currentItem >= (mViewPager?.adapter?.itemCount ?: MAX_VALUE)) {
                 currentItem = 0
@@ -337,6 +345,7 @@ open class BannerViewPager<T, H : BaseViewHolder<T>> @JvmOverloads constructor(
             CENTER -> layoutParams.addRule(
                 CENTER_HORIZONTAL
             )
+
             START -> layoutParams.addRule(ALIGN_PARENT_LEFT)
             END -> layoutParams.addRule(ALIGN_PARENT_RIGHT)
             else -> {
@@ -458,7 +467,7 @@ open class BannerViewPager<T, H : BaseViewHolder<T>> @JvmOverloads constructor(
     private fun refreshIndicator(data: List<T>) {
         setIndicatorValues(data)
         mBannerManager.getBannerOptions()?.getIndicatorOptions()
-                ?.currentPosition = BannerUtils.getRealPosition(mViewPager?.currentItem ?: 0, data.size)
+            ?.currentPosition = BannerUtils.getRealPosition(mViewPager?.currentItem ?: 0, data.size)
         mIndicatorView?.notifyDataChanged()
     }
 
@@ -475,7 +484,8 @@ open class BannerViewPager<T, H : BaseViewHolder<T>> @JvmOverloads constructor(
     }
 
     private fun isCanLoopSafely(): Boolean {
-        return ((mBannerManager?.getBannerOptions().isCanLoop() && ((mBannerPagerAdapter?.getListSize() ?: 0) > 1)))
+        return ((mBannerManager?.getBannerOptions()!!
+            .isCanLoop() && ((mBannerPagerAdapter?.getListSize() ?: 0) > 1)))
     }
 
     override fun onSaveInstanceState(): Parcelable? {
@@ -510,7 +520,7 @@ open class BannerViewPager<T, H : BaseViewHolder<T>> @JvmOverloads constructor(
      */
     fun startLoop() {
         if (!isLooping && isAutoPlay() && (mBannerPagerAdapter != null) && (
-                        (mBannerPagerAdapter?.getListSize() ?: 0) > 1)
+                    (mBannerPagerAdapter?.getListSize() ?: 0) > 1)
         ) {
             mHandler.postDelayed(mRunnable, getInterval())
             isLooping = true
@@ -522,7 +532,7 @@ open class BannerViewPager<T, H : BaseViewHolder<T>> @JvmOverloads constructor(
      */
     fun startLoopNow() {
         if (!isLooping && isAutoPlay() && (mBannerPagerAdapter != null) && (
-                        (mBannerPagerAdapter?.getListSize() ?: 0) > 1)
+                    (mBannerPagerAdapter?.getListSize() ?: 0) > 1)
         ) {
             mHandler.post(mRunnable)
             isLooping = true
@@ -578,7 +588,7 @@ open class BannerViewPager<T, H : BaseViewHolder<T>> @JvmOverloads constructor(
         mRadiusRectF = RectF()
         mRadiusPath = Path()
         mBannerManager.getBannerOptions()
-                ?.setRoundRectRadius(topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius)
+            ?.setRoundRectRadius(topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius)
         return this
     }
 
@@ -719,7 +729,7 @@ open class BannerViewPager<T, H : BaseViewHolder<T>> @JvmOverloads constructor(
      */
     fun setIndicatorSliderRadius(normalRadius: Int, checkedRadius: Int): BannerViewPager<T, H> {
         mBannerManager.getBannerOptions()
-                ?.setIndicatorSliderWidth(normalRadius * 2, checkedRadius * 2)
+            ?.setIndicatorSliderWidth(normalRadius * 2, checkedRadius * 2)
         return this
     }
 
@@ -903,7 +913,8 @@ open class BannerViewPager<T, H : BaseViewHolder<T>> @JvmOverloads constructor(
                 stopLoop()
                 mBannerPagerAdapter?.setData(list)
                 val limitSize = mBannerManager.getBannerOptions().getOffScreenPageLimit() ?: 0
-                mViewPager?.offscreenPageLimit = if (limitSize > 0) limitSize else OFFSCREEN_PAGE_LIMIT_DEFAULT
+                mViewPager?.offscreenPageLimit =
+                    if (limitSize > 0) limitSize else OFFSCREEN_PAGE_LIMIT_DEFAULT
                 resetCurrentItem(getCurrentItem())
                 refreshIndicator(list)
                 startLoop()
@@ -1109,7 +1120,7 @@ open class BannerViewPager<T, H : BaseViewHolder<T>> @JvmOverloads constructor(
         disallowParentInterceptDownEvent: Boolean
     ): BannerViewPager<T, H> {
         mBannerManager.getBannerOptions()
-                ?.setDisallowParentInterceptDownEvent(disallowParentInterceptDownEvent)
+            ?.setDisallowParentInterceptDownEvent(disallowParentInterceptDownEvent)
         return this
     }
 
@@ -1132,7 +1143,7 @@ open class BannerViewPager<T, H : BaseViewHolder<T>> @JvmOverloads constructor(
      */
     fun stopLoopWhenDetachedFromWindow(stopLoopWhenDetachedFromWindow: Boolean): BannerViewPager<T, H> {
         mBannerManager.getBannerOptions()
-                ?.setStopLoopWhenDetachedFromWindow(stopLoopWhenDetachedFromWindow)
+            ?.setStopLoopWhenDetachedFromWindow(stopLoopWhenDetachedFromWindow)
         return this
     }
 

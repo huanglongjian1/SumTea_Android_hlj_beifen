@@ -3,6 +3,7 @@ package com.sum.login.policy
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.sum.common.constant.Login_ACTIVITY_POLICY
 import com.sum.framework.base.BaseDataBindActivity
@@ -24,6 +25,5 @@ class PrivacyPolicyActivity : BaseDataBindActivity<ActivityPrivacyPolicyBinding>
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-
     }
 }

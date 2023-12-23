@@ -8,6 +8,7 @@ import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import com.sum.common.constant.KEY_ID
 import com.sum.common.provider.MainServiceProvider
+import com.sum.common.util.Loge
 import com.sum.framework.decoration.StaggeredItemDecoration
 import com.sum.framework.base.BaseMvvmFragment
 import com.sum.framework.ext.gone
@@ -84,6 +85,7 @@ class HomeTabFragment : BaseMvvmFragment<FragmentHomeVideoBinding, HomeViewModel
                 mAdapter.addAll(it)
                 mBinding?.refreshLayout?.finishLoadMore()
             }
+            Loge.e(it.toString())
         }
     }
 

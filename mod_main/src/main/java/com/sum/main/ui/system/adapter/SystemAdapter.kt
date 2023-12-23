@@ -1,5 +1,6 @@
 package com.sum.main.ui.system.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +9,15 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.sum.common.model.SystemList
+import com.sum.common.util.Loge
 import com.sum.framework.adapter.BaseBindViewHolder
 import com.sum.framework.adapter.BaseRecyclerViewAdapter
 import com.sum.framework.ext.toJson
 import com.sum.main.databinding.LayoutSystemItemBinding
 import com.sum.main.ui.system.ArticleTabActivity
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * @author mingyan.su
@@ -50,8 +55,12 @@ class SystemAdapter : BaseRecyclerViewAdapter<SystemList, LayoutSystemItemBindin
 //            recyclerViewItem.setOnTouchListener { v, event ->
 //                root.onTouchEvent(event)
 //            }
-            adapter.onItemClickListener = { _: View, _: Int ->
-                ArticleTabActivity.startIntent(root.context, item?.toJson(true))
+            adapter.onItemClickListener = { v: View, position: Int ->
+
+                v.isSelected = !v.isSelected
+                ArticleTabActivity.startIntent(root.context, item?.toJson(true), position)
+                Loge.e(position.toString())
+
             }
         }
     }

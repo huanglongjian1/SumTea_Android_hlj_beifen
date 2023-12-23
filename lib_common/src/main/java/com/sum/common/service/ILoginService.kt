@@ -1,6 +1,7 @@
 package com.sum.common.service
 
 import android.content.Context
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.template.IProvider
@@ -42,5 +43,7 @@ interface ILoginService : IProvider {
         lifecycleOwner: LifecycleOwner?,
         observer: Observer<Boolean>
     )
+
+    fun loginFragment(): Fragment
 
 }
