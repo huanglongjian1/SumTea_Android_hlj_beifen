@@ -9,6 +9,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
+import com.sum.common.constant.DEMO_ACTIVITY_DATABINDING
 import com.sum.common.constant.DEMO_ACTIVITY_LIFECYCLE
 import com.sum.common.constant.DEMO_ACTIVITY_LIVEDATA
 import com.sum.common.constant.DEMO_ACTIVITY_NAVIGATION
@@ -47,9 +48,11 @@ import java.io.File
  */
 class MineFragment : BaseMvvmFragment<FragmentMineBinding, MineViewModel>(), OnRefreshListener,
     OnLoadMoreListener {
-
+    // 页码
     private var mPage = 0
+    // 头布局
     private lateinit var mHeadBinding: FragmentMineHeadBinding
+    // 文章列表Adapter
     private lateinit var mAdapter: ArticleAdapter
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
@@ -112,7 +115,7 @@ class MineFragment : BaseMvvmFragment<FragmentMineBinding, MineViewModel>(), OnR
     var isShowLoginFragment = MutableLiveData(false)
 
     private fun initListener() {
-        mHeadBinding?.apply {
+        mHeadBinding.apply {
             ivHead.onClick {
                 if (UserServiceProvider.isLogin()) {
                     ARouter.getInstance().build(USER_ACTIVITY_INFO).navigation()
@@ -146,7 +149,7 @@ class MineFragment : BaseMvvmFragment<FragmentMineBinding, MineViewModel>(), OnR
                 ARouter.getInstance().build(DEMO_ACTIVITY_LIFECYCLE).navigation()
             }
             tvDataBinging.onClick {
-
+                ARouter.getInstance().build(DEMO_ACTIVITY_DATABINDING).navigation()
             }
             tvLivedata.onClick {
                 ARouter.getInstance().build(DEMO_ACTIVITY_LIVEDATA).navigation()
@@ -208,7 +211,7 @@ class MineFragment : BaseMvvmFragment<FragmentMineBinding, MineViewModel>(), OnR
 
     private fun initHeadView() {
         mHeadBinding = FragmentMineHeadBinding.inflate(LayoutInflater.from(requireContext()))
-        mHeadBinding?.tvName?.text = getStringFromResource(R.string.mine_not_login)
+        mHeadBinding.tvName.text = getStringFromResource(R.string.mine_not_login)
         mAdapter.addHeadView(mHeadBinding.root)
     }
 
