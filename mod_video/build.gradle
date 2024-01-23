@@ -60,10 +60,23 @@ dependencies {
     compileOnly rootProject.depsLibs.aroutreApi
     kapt rootProject.depsLibs.arouterCompiler
 
+
     compileOnly rootProject.depsLibs.exoPlayer
 
     compileOnly project(path: ':lib_framework')
     compileOnly project(path: ':lib_common')
     compileOnly project(path: ':lib_network')
     compileOnly project(path: ':lib_room')
+
+    implementation ("com.danikula:videocache:2.7.1")
+    implementation "cn.jzvd:jiaozivideoplayer:7.0.5"
+    implementation rootProject.depsLibs.glide
+    kapt rootProject.depsLibs.glideCompiler
+    // Media3
+    implementation("androidx.media3:media3-exoplayer:1.0.1")
+    implementation("androidx.media3:media3-ui:1.0.1")
+    implementation("androidx.media3:media3-session:1.0.1")
+
+    implementation "com.guolindev.permissionx:permissionx:1.6.4"
+
 }

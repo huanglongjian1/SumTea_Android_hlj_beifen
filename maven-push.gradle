@@ -1,0 +1,71 @@
+apply plugin: 'maven-publish'
+
+afterEvaluate {
+
+    publishing {
+
+        //发布的 jar 包配置
+
+        publications {
+
+            release(MavenPublication) {
+
+                groupId = rootProject.name
+
+                artifactId = project.getName()
+
+                version = '1.0.0'
+
+                //aar 文件
+
+                def projectName = project.getName()
+
+                artifact "build/outputs/aar/${projectName}-release.aar"
+
+                pom.withXml {
+
+                    def dependenciesNode = asNode().appendNode("dependencies")
+
+                    configurations.implementation.allDependencies.forEach() {
+
+                        Dependency dependency ->
+
+                            if (dependency.version != "unspecified" && dependency.name != "unspecified") {
+
+                                def dependencyNode = dependenciesNode.appendNode('dependency')
+
+                                dependencyNode.appendNode('groupId', dependency.group)
+
+                                dependencyNode.appendNode('artifactId', dependency.name)
+
+                                dependencyNode.appendNode('version', dependency.version)
+
+                            }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        //仓库地址配置
+
+        repositories {
+
+            maven {
+
+                // test, upload local maven repository
+
+                //url = "file:" + new File(project.rootProject.rootDir, "local_test_repo").path
+
+                url = "file://D:\\android\\java\\myApp\\SumTea_Android"
+
+            }
+
+        }
+
+    }
+
+}

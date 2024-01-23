@@ -16,8 +16,10 @@ package com.sum.common.constant
  */
 //登录页面
 const val LOGIN_ACTIVITY_LOGIN = "/login/activity/login"
+
 //注册页面
 const val LOGIN_ACTIVITY_REGISTER = "/login/activity/register"
+
 //隐私协议界面
 const val Login_ACTIVITY_POLICY = "/login/activity/policy"
 
@@ -32,8 +34,10 @@ const val MAIN_ACTIVITY_HOME = "/main/activity/home"
  */
 //设置界面
 const val USER_ACTIVITY_SETTING = "/user/activity/setting"
+
 //设置用户信息
 const val USER_ACTIVITY_INFO = "/user/activity/info"
+
 //我的收藏界面
 const val USER_ACTIVITY_COLLECTION = "/user/activity/collection"
 
@@ -52,14 +56,19 @@ const val VIDEO_ACTIVITY_PLAYER = "/video/activity/player"
  */
 //Navigation
 const val DEMO_ACTIVITY_NAVIGATION = "/demo/activity/navigation"
+
 //Lifecycle
 const val DEMO_ACTIVITY_LIFECYCLE = "/demo/activity/lifecycle"
+
 //ViewModel
 const val DEMO_ACTIVITY_VIEWMODEL = "/demo/activity/viewmodel"
+
 //LiveData
 const val DEMO_ACTIVITY_LIVEDATA = "/demo/activity/livedata"
+
 //ViewBinding
 const val DEMO_ACTIVITY_VIEWBINDING = "/demo/activity/viewbinding"
+
 //DataBinding
 const val DEMO_ACTIVITY_DATABINDING = "/demo/activity/databinding"
 
@@ -84,3 +93,16 @@ const val MAIN_SERVICE_HOME = "/main/service/home"
  * 搜索模块模块-搜索
  */
 const val SEARCH_SERVICE_SEARCH = "/search/service/search"
+
+const val VIDEO_TEST8_EXOPLAYER_ACTIVITY = "/video/ExoplayerTest8Activity"
+
+const val VIDEO_TEST8_EXOPLAYER_ACTIVITY_2 = "/video/ExoplayerTest8Activity_2"
+
+const val VIDEO_TEST2_ACTIVITY = "/video/VideoActivity"
+const val VIDEO_TEST3_MUSICDEMOACTIVITY = "/video/MusicDomeActivity"
+const val VIDEO_TEST4_EXOVIDEOPLAYERACTIVITY = "/video/ExoVideoPlayerTest4Activity"
+const val VIDEO_TEST6_MEDIA_ACTIVITY = "/video/MediaTest6Activity"
+const val VIDEO_TEST6_MEDIA_ACTIVITY_2 = "/video/MediaTest6Activity_2"
+const val VIDEO_TEST7_MUSIC_ACTIVITY = "/video/MusicTest7Activity"
+const val MAIN_TEST_ACTIVITY="/main/TestActivity"
+const val VIDEO_SERVICE="/video/VideoService"

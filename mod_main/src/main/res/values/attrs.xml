@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TestThemes">
+        <attr name="ColorAttrName" format="color" />
+        <attr name="integerAttrName" format="integer" />
+        <attr name="booleanAttrName" format="boolean" />
+        <attr name="dimensionAttrName" format="dimension" />
+        <attr name="floatAttrName" format="dimension" />
+        <attr name="stringAttrName" format="string" />
+        <attr name="referenceAttrName" format="reference" />
+    </declare-styleable>
+</resources>
